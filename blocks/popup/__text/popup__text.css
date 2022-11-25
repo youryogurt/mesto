@@ -3,9 +3,13 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  padding: 0 0 13px 0;
-  height: 27px;
+  padding: 0 0 14px 0;
+  height: 14px;
   border: none;
   outline: none;
   border-bottom: 1px solid #000000;
+}
+
+.popup__text:first-line {
+  display: inline-block;
 }

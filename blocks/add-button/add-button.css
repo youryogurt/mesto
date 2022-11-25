@@ -1,7 +1,7 @@
 .add-button {
   margin-top: 36px;
   margin-bottom: 36px;
-  background-size: 16px 16 px;
+  background-size: 16px 16px;
   background-repeat: no-repeat;
   background-position: center;
   background-color: inherit;
@@ -12,6 +12,7 @@
   height: 50px;
   cursor: pointer;
   transition: .5s all;
+  padding: 0;
 }
 
 .add-button:hover {
