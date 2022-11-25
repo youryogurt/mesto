@@ -1,17 +1,15 @@
 .gallery {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: calc(100% - 2 * 19px);
   gap: 10px;
-  justify-items: center;
-  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (min-width: 768px) {
   .gallery {
-    grid-template-columns: 1fr 1fr;
-    /* margin-left: 32px;
-    margin-right: 32px; */
-    width: calc(100% - 2 * 19px);
+    grid-template-columns: repeat(2, calc(100% / 2 - 2 * 19px));
+    column-gap: 17px;
+    row-gap: 20px;
   }
 }
 
@@ -19,7 +17,5 @@
   .gallery {
     grid-template-columns: 1fr 1fr 1fr;
     max-width: 880px;
-    column-gap: 17px;
-    row-gap: 20px;
   }
 }

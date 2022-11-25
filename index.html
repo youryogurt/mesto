@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./pages/index.css">
+  <script async src="./script/index.js"></script>
   <title>Mesto</title>
 </head>
 <body class="page">
@@ -11,7 +12,6 @@
     <header class="header">
       <img class="logo" src="./images/logo.svg" alt="Надпись Mesto Russia">
     </header>
-    <!-- флекс колумн и выранвивание по центру задано для этой обертки, поэтому для футера надо будет придумать выранвивание -->
     <main class="content">
       <div class="profile">
         <div class="profile__info">
@@ -19,22 +19,14 @@
           <div class="profile__text">
             <div class="profile__user">
               <p class="profile__full-name">Жак-Ив Кусто</p>
-              <img class="profile__editing" src="./images/edit-button.svg" alt="Схематичное изображение ручки в квадрате">
+              <a href="#" class="popup-open">
+                <img class="profile__editing" src="./images/edit-button.svg" alt="Схематичное изображение ручки в квадрате">
+              </a>
             </div>
-            <p class="profile__description">Исследователь океана</p>
+            <p class="profile__job">Исследователь океана</p>
           </div>
         </div>
-        <!-- <img class="profile__avatar" src="./images/avatar.jpg" alt="Жак-Ив Кусто в красной шапке и очках">
-        <div>
-          <div class="profile__user">
-            <p class="profile__full-name">Жак-Ив Кусто</p>
-            <img class="profile__editing" src="./images/edit-button.svg" alt="Схематичное изображение ручки в квадрате">
-          </div>
-          <p class="profile__description">Исследователь океана</p>
-        </div> -->
-        <button class="add-button">
-          <img class="add-button__image" src="./images/add-button.svg" alt="Прямоугольная кнопка с округлыми углами и плюсом по центру">
-        </button>
+        <button class="add-button" type="button"></button>
       </div>
       <div class="gallery">
         <div class="gallery__card">
@@ -84,22 +76,19 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2022 Mesto Georgia</p>
     </footer>
-
-    <!-- <div class="popup">
-      <form class="popup__form">
-        <img class="close-popup" src="./images/close-icon.svg" alt="Белый крестик">
-        <label>
-          <input type="text" name="name">
-          <div class="label__text">Имя</div>
+    <div class="popup"> 
+      <form class="popup__container">
+        <img class="popup__close-button" src="./images/close-icon.svg" alt="Крестик">
+        <h2 class="popup__header">Редактировать профиль</h2>
+        <label class="popup__label">
+          <input class="popup__text" id="name" type="text" name="name" value="Жак-Ив Кусто">
         </label>
-        <label>
-          <input type="info" name="info">
-          <div class="label__text">О себе</div>
+        <label class="popup__label">
+          <input class="popup__text" id="job" type="text" name="about" value="Исследователь океана">
         </label>
-        <button type="submit">Cохранить</button>
+        <button class="popup__save-button" type="submit">Сохранить</button>
       </form>
-    </div> -->
-
+    </div>  
   </div>
 </body>
 </html>
