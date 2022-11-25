@@ -3,6 +3,11 @@
   padding-bottom: 32px;
   width: 104px;
   height: auto;
+  transition: .5s all;
+}
+
+.logo:hover {
+  opacity: .5;
 }
 
 @media screen and (min-width: 1024px) {
