@@ -1,14 +1,9 @@
 .gallery__like {
-  cursor: pointer;
-  transition: .5s all;
   background-size: contain;
-  background-repeat: no-repeat;
-  background-color: inherit;
   background-image: url("../../../images/like-button.svg");
   width: 22px;
   height:19px;
   border: 0;
-  padding: 0;
 }
 
 .gallery__like:hover {

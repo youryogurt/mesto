@@ -5,6 +5,7 @@
   line-height: 33px;
   color: #FFFFFF;
   margin: 0;
+  text-overflow: ellipsis;
 }
 
 @media screen and (min-width: 768px) {

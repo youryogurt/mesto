@@ -9,12 +9,9 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  background: #000000;
-  cursor: pointer;
-  transition: .5s all;
+  background-color: #000000;
   border-radius: 2px;
   margin-bottom: 25px;
-  padding: 0;
   border: 0;
 }
 
