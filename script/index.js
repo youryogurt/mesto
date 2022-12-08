@@ -43,9 +43,18 @@ const inputJob = document.querySelector('#job');
 const addCardBackground = document.querySelector('.add-card');
 const openAddFormButton = document.querySelector('.add-button');
 
-const likes = document.querySelectorAll('.gallery__like');
-
 const gallery = document.querySelector('.gallery');
+
+const editForm = document.querySelector('#edit-form');
+const addCardForm = document.querySelector('#add-card-form');
+
+function like (event) {
+  event.target.classList.toggle('gallery__like_active');
+};
+
+function deleteCard (event) {
+  event.target.closest('.gallery__card').remove();
+}
 
 // загрузка страницы
 function addCard (name, link, append = false) {
@@ -60,6 +69,7 @@ function addCard (name, link, append = false) {
   const deleteButton = document.createElement('button');
   deleteButton.classList.add('gallery__delete-button', 'button');
   deleteButton.setAttribute('type', 'button');
+  deleteButton.addEventListener('click', deleteCard);
 
   const galleryCaption = document.createElement('div');
   galleryCaption.classList.add('gallery__caption');
@@ -71,6 +81,7 @@ function addCard (name, link, append = false) {
   const likeButton = document.createElement('button');
   likeButton.classList.add('gallery__like', 'button');
   likeButton.setAttribute('type', 'button');
+  likeButton.addEventListener('click', like);
 
   galleryCaption.append(placeName, likeButton);
 
@@ -110,18 +121,32 @@ openAddFormButton.addEventListener('click', function (event) {
   openPopup(addImage);
 });
 
-// сабмит формы
-// popup.addEventListener('submit', function (event) {
-//   event.preventDefault();
+// сабмит формы редактирования профиля
+editForm.addEventListener('submit', function (event) {
+  event.preventDefault();
 
-//   fullName.textContent = inputName.value;
-//   job.textContent = inputJob.value;
+  fullName.textContent = inputName.value;
+  job.textContent = inputJob.value;
 
-//   inputName.setAttribute('value', fullName.textContent);
-//   inputJob.setAttribute('value', inputJob.textContent);
+  inputName.setAttribute('value', fullName.textContent);
+  inputJob.setAttribute('value', inputJob.textContent);
 
-//   popupBackground.classList.remove('popup_opened');
-// });
+  let target = event.target;
+  closePopup(target.closest('.popup'));
+});
+
+// сабмит формы добавления карточки
+addCardForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  const placeNameValue = document.querySelector('#place-name').value;
+  const linkValue = document.querySelector('#link').value;
+
+  addCard(placeNameValue, linkValue);
+
+  let target = event.target;
+  closePopup(target.closest('.popup'));
+});
 
 // закрытие попапа по кнопке и по клику за пределами формы
 function closePopup(element) {
@@ -149,9 +174,6 @@ popups.forEach(function (element) {
   })
 });
 
-// лайк
-likes.forEach(function (element) {
-  element.addEventListener('click', function (event) {
-    event.target.classList.toggle('gallery__like_active');
-  })
-});
+// likes.forEach(function (element) {
+//   element.addEventListener('click', like);
+// });
