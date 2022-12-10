@@ -1,23 +1,26 @@
-.popup__container {
-  margin-top: 124px;
+.popup__image-container {
+  margin-top: 136px;
   margin-left: auto;
   margin-right: auto;
-  background: #fff;
   width: calc(100% - 2 * 19px);
-  max-width: 430px;
-  height: 322px;
   transition: 0.5s all;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   position: relative;
+  max-width: 816px;
+  max-height: 75vh;
+}
+
+@media screen and (min-width: 768px) {
+  .popup__image-container {
+    width: calc(100% - 2 * 28px);
+  }
 }
 
 @media screen and (min-width: 1024px) {
-  .popup__container {
-    margin-top: 195px;
-    height: 330px;
+  .popup__image-container {
+    margin-top: 90px;
   }
 }

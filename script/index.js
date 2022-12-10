@@ -31,8 +31,8 @@ const editPopupButton = document.querySelector('.profile__popup-open');
 const closeButtons = document.querySelectorAll('.popup__close-button');
 const popups = document.querySelectorAll('.popup__container');
 
-const editing = document.querySelector('.popup_editing');
-const addImage = document.querySelector('.popup_add-card');
+const editing = document.querySelector('.popup_type_editing');
+const addImage = document.querySelector('.popup_type_add-card');
 
 const fullName = document.querySelector('.profile__full-name');
 const job = document.querySelector('.profile__job');
@@ -47,6 +47,7 @@ const gallery = document.querySelector('.gallery');
 
 const editForm = document.querySelector('#edit-form');
 const addCardForm = document.querySelector('#add-card-form');
+const bigPhoto = document.querySelector('.popup_type_image');
 
 function like (event) {
   event.target.classList.toggle('gallery__like_active');
@@ -65,6 +66,17 @@ function addCard (name, link, append = false) {
   galleryImage.classList.add('gallery__image');
   galleryImage.setAttribute('src', link);
   galleryImage.setAttribute('alt', name);
+
+  galleryImage.addEventListener('click', function() {
+    const popupImage = document.querySelector('.popup__image');
+    const popupCaption = document.querySelector('.popup__caption');
+
+    popupImage.setAttribute('src', link);
+    popupImage.setAttribute('alt', name);
+    popupCaption.textContent = name;
+
+    openPopup(bigPhoto);
+  });
   
   const deleteButton = document.createElement('button');
   deleteButton.classList.add('gallery__delete-button', 'button');
@@ -105,10 +117,10 @@ window.addEventListener("DOMContentLoaded", function () {
   inputJob.setAttribute('value', inputJob.textContent);
 });
 
-// открытие формы
+// открытие попапа
 function openPopup(element) {
   element.classList.add('popup_opened');
-}
+};
 
 editPopupButton.addEventListener('click', function (event) {
   openPopup(editing);
@@ -173,7 +185,3 @@ popups.forEach(function (element) {
       event.stopPropagation();
   })
 });
-
-// likes.forEach(function (element) {
-//   element.addEventListener('click', like);
-// });

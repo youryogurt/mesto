@@ -1,13 +1,21 @@
 .popup__image {
   width: 100%;
-  height: auto;
-  max-width: 75vw;
+  max-width: 816px;
+  height: 300px;
   max-height: 75vh;
-  /* margin-top: 90px;
-  margin-left: auto;
-  margin-right: auto;
-  transition: 0.5s all;
-  position: relative; */
   object-position: center;
   display: block;
+  object-fit: cover;
+}
+
+@media screen and (min-width: 768px) {
+  .popup__image {
+    height: 420px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .popup__image {
+    height: 540px;
+  }
 }
