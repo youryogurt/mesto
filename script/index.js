@@ -29,7 +29,7 @@ const initialCards = [
 const popupBackgrounds = document.querySelectorAll('.popup');
 const editPopupButton = document.querySelector('.profile__popup-open');
 const closeButtons = document.querySelectorAll('.popup__close-button');
-const popups = document.querySelectorAll('.popup__container');
+const popups = document.querySelectorAll('.popup__container, .popup__image-container');
 
 const editing = document.querySelector('.popup_type_editing');
 const addImage = document.querySelector('.popup_type_add-card');
@@ -40,14 +40,22 @@ const job = document.querySelector('.profile__job');
 const inputName = document.querySelector('#name');
 const inputJob = document.querySelector('#job');
 
+const placeName = document.querySelector('#place-name');
+const link = document.querySelector('#link');
+
 const addCardBackground = document.querySelector('.add-card');
 const openAddFormButton = document.querySelector('.add-button');
 
 const gallery = document.querySelector('.gallery');
 
-const editForm = document.querySelector('#edit-form');
-const addCardForm = document.querySelector('#add-card-form');
+const editForm = document.forms['editing'];
+const addCardForm = document.forms['add-card'];
 const bigPhoto = document.querySelector('.popup_type_image');
+
+const popupImage = document.querySelector('.popup__image');
+const popupCaption = document.querySelector('.popup__caption');
+
+const cardTemplate = document.querySelector('#card');
 
 function like (event) {
   event.target.classList.toggle('gallery__like_active');
@@ -57,19 +65,15 @@ function deleteCard (event) {
   event.target.closest('.gallery__card').remove();
 }
 
-// загрузка страницы
-function addCard (name, link, append = false) {
-  const galleryCard = document.createElement('div');
-  galleryCard.classList.add('gallery__card');
+// создание карточки
+function createCard(name, link) {
+  const card = cardTemplate.content.cloneNode(true);
+  const galleryImage = card.querySelector('.gallery__image');
 
-  const galleryImage = document.createElement('img');
-  galleryImage.classList.add('gallery__image');
   galleryImage.setAttribute('src', link);
   galleryImage.setAttribute('alt', name);
 
   galleryImage.addEventListener('click', function() {
-    const popupImage = document.querySelector('.popup__image');
-    const popupCaption = document.querySelector('.popup__caption');
 
     popupImage.setAttribute('src', link);
     popupImage.setAttribute('alt', name);
@@ -78,27 +82,21 @@ function addCard (name, link, append = false) {
     openPopup(bigPhoto);
   });
   
-  const deleteButton = document.createElement('button');
-  deleteButton.classList.add('gallery__delete-button', 'button');
-  deleteButton.setAttribute('type', 'button');
+  const deleteButton = card.querySelector('.gallery__delete-button');
   deleteButton.addEventListener('click', deleteCard);
 
-  const galleryCaption = document.createElement('div');
-  galleryCaption.classList.add('gallery__caption');
-
-  const placeName = document.createElement('p');
-  placeName.classList.add('gallery__place-name');
+  const placeName = card.querySelector('.gallery__place-name');
   placeName.textContent = name;
 
-  const likeButton = document.createElement('button');
-  likeButton.classList.add('gallery__like', 'button');
-  likeButton.setAttribute('type', 'button');
+  const likeButton = card.querySelector('.gallery__like');
   likeButton.addEventListener('click', like);
 
-  galleryCaption.append(placeName, likeButton);
+  return card
+};
 
-  galleryCard.append(galleryImage, deleteButton, galleryCaption);
-
+// добавление карточки на страницу
+function addCard (name, link, append = false) {
+  const galleryCard = createCard(name, link);
   if (append) {
     gallery.append(galleryCard);
   } else {
@@ -106,9 +104,10 @@ function addCard (name, link, append = false) {
   }
 };
 
+// загрузка страницы
 initialCards.forEach(function (element) {
-  let name = element['name'];
-  let link = element['link'];
+  const name = element['name'];
+  const link = element['link'];
   addCard(name, link, true);
 });
 
@@ -123,6 +122,9 @@ function openPopup(element) {
 };
 
 editPopupButton.addEventListener('click', function (event) {
+  inputName.setAttribute('value', fullName.textContent);
+  inputJob.setAttribute('value', inputJob.textContent);
+
   openPopup(editing);
   
   inputName.value = fullName.textContent;
@@ -130,6 +132,7 @@ editPopupButton.addEventListener('click', function (event) {
 });
 
 openAddFormButton.addEventListener('click', function (event) {
+  addCardForm.reset();
   openPopup(addImage);
 });
 
@@ -143,20 +146,18 @@ editForm.addEventListener('submit', function (event) {
   inputName.setAttribute('value', fullName.textContent);
   inputJob.setAttribute('value', inputJob.textContent);
 
-  let target = event.target;
+  const target = event.target;
   closePopup(target.closest('.popup'));
 });
 
 // сабмит формы добавления карточки
 addCardForm.addEventListener('submit', function (event) {
   event.preventDefault();
-
-  const placeNameValue = document.querySelector('#place-name').value;
-  const linkValue = document.querySelector('#link').value;
-
+  const placeNameValue = placeName.value;
+  const linkValue = link.value;
   addCard(placeNameValue, linkValue);
 
-  let target = event.target;
+  const target = event.target;
   closePopup(target.closest('.popup'));
 });
 
@@ -165,23 +166,13 @@ function closePopup(element) {
   element.classList.remove('popup_opened');
 }
 
-closeButtons.forEach(function (element) {
-  element.addEventListener('click', function (event) {
-    let target = event.target;
-    closePopup(target.closest('.popup'));
-  })
-});
-
-popupBackgrounds.forEach(function (element) {
-    element.addEventListener('click', function (event) {
-      let target = event.target;
-      closePopup(target.closest('.popup'));
+popupBackgrounds.forEach((popupBackground) => {
+  popupBackground.addEventListener('mousedown', (evt) => {
+    if (evt.target.classList.contains('popup_opened')) {
+      closePopup(popupBackground)
     }
-  )
-});
-
-popups.forEach(function (element) {
-  element.addEventListener('click', function (event) {
-      event.stopPropagation();
-  })
+    if (evt.target.classList.contains('popup__close-button')) {
+      closePopup(popupBackground)
+    }
+  });
 });

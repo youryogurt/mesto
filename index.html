@@ -76,13 +76,23 @@
             <button class="gallery__like button" type="button"></button>
           </div>
         </div> -->
+        <template id="card">
+          <div class="gallery__card">
+            <img class="gallery__image" src="#" alt="">
+            <button class="gallery__delete-button button" type="button"></button>
+            <div class="gallery__caption">
+              <p class="gallery__place-name"></p>
+              <button class="gallery__like button" type="button"></button>
+            </div>
+          </div>
+        </template>
       </section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
     <div class="popup popup_type_editing"> 
-      <form class="popup__container" id="edit-form" name="popup-container">
+      <form class="popup__container" name="editing">
         <button class="button popup__close-button" type="button"></button>
         <h2 class="popup__header popup__header_editing">Редактировать профиль</h2>
         <label class="popup__label">
@@ -95,7 +105,7 @@
       </form>
     </div>
     <div class="popup popup_type_add-card"> 
-      <form class="popup__container" id="add-card-form" name="popup-container">
+      <form class="popup__container" name="add-card">
         <button class="button popup__close-button" type="button"></button>
         <h2 class="popup__header popup__header_add-card">Новое место</h2>
         <label class="popup__label">
