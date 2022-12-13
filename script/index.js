@@ -111,19 +111,12 @@ initialCards.forEach(function (element) {
   addCard(name, link, true);
 });
 
-window.addEventListener("DOMContentLoaded", function () {
-  inputName.setAttribute('value', fullName.textContent);
-  inputJob.setAttribute('value', inputJob.textContent);
-});
-
 // открытие попапа
 function openPopup(element) {
   element.classList.add('popup_opened');
 };
 
 editPopupButton.addEventListener('click', function (event) {
-  inputName.setAttribute('value', fullName.textContent);
-  inputJob.setAttribute('value', inputJob.textContent);
 
   openPopup(editing);
   
@@ -132,7 +125,7 @@ editPopupButton.addEventListener('click', function (event) {
 });
 
 openAddFormButton.addEventListener('click', function (event) {
-  addCardForm.reset();
+  // addCardForm.reset();
   openPopup(addImage);
 });
 
@@ -142,9 +135,6 @@ editForm.addEventListener('submit', function (event) {
 
   fullName.textContent = inputName.value;
   job.textContent = inputJob.value;
-
-  inputName.setAttribute('value', fullName.textContent);
-  inputJob.setAttribute('value', inputJob.textContent);
 
   const target = event.target;
   closePopup(target.closest('.popup'));
@@ -156,6 +146,8 @@ addCardForm.addEventListener('submit', function (event) {
   const placeNameValue = placeName.value;
   const linkValue = link.value;
   addCard(placeNameValue, linkValue);
+
+  event.target.reset()
 
   const target = event.target;
   closePopup(target.closest('.popup'));
