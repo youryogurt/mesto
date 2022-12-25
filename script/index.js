@@ -118,7 +118,7 @@ function openPopup(element) {
 };
 
 editPopupButton.addEventListener('click', function (event) {
-
+  resetValidation(editing);
   openPopup(editing);
   
   inputName.value = fullName.textContent;
@@ -127,6 +127,7 @@ editPopupButton.addEventListener('click', function (event) {
 
 openAddFormButton.addEventListener('click', function (event) {
   // addCardForm.reset();
+  resetValidation(addImage);
   openPopup(addImage);
 });
 
@@ -176,4 +177,17 @@ function closePopupEsc (evt) {
   if (evt.key === "Escape") {
     const openedPopup = document.querySelector('.popup_opened');
     closePopup(openedPopup)};
+};
+
+// сброс ошибок валидации
+function resetValidation(form) {
+  const spanErrors = Array.from(form.querySelectorAll('.popup__text-error'));
+  spanErrors.forEach((error) => {
+    error.textContent = '';
+  });
+
+  const inputs = Array.from(form.querySelectorAll('.popup__text'));
+  inputs.forEach((input) => {
+    input.classList.remove('popup__text_type_error');
+  });
 };
