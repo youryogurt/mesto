@@ -106,6 +106,7 @@ function addCard (name, link, append = false) {
 
 // загрузка страницы
 initialCards.forEach(function (element) {
+  // блабла
   const name = element['name'];
   const link = element['link'];
   addCard(name, link, true);
