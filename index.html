@@ -92,27 +92,31 @@
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
     <div class="popup popup_type_editing"> 
-      <form class="popup__container" name="editing">
+      <form class="popup__container" name="editing" novalidate>
         <button class="button popup__close-button" type="button"></button>
         <h2 class="popup__header popup__header_editing">Редактировать профиль</h2>
         <label class="popup__label">
-          <input class="popup__text" id="name" type="text" name="name">
+          <input class="popup__text" id="name" type="text" name="name" minlength="2" maxlength="40" required>
+          <span class="name-error popup__text-error" id="name-error"></span>
         </label>
         <label class="popup__label">
-          <input class="popup__text" id="job" type="text" name="about">
+          <input class="popup__text" id="job" type="text" name="about" minlength="2" maxlength="200" required>
+          <span class="job-error popup__text-error" id="job-error"></span>
         </label>
         <button class="button popup__button" id="save-button" type="submit">Сохранить</button>
       </form>
     </div>
     <div class="popup popup_type_add-card"> 
-      <form class="popup__container" name="add-card">
+      <form class="popup__container" name="add-card" novalidate>
         <button class="button popup__close-button" type="button"></button>
         <h2 class="popup__header popup__header_add-card">Новое место</h2>
         <label class="popup__label">
-          <input class="popup__text" id="place-name" type="text" name="name" placeholder="Название">
+          <input class="popup__text" id="place-name" type="text" name="name" placeholder="Название" minlength="2" maxlength="30" required>
+          <span class="place-name-error popup__text-error" id="place-name-error"></span>
         </label>
         <label class="popup__label">
-          <input class="popup__text" id="link" type="text" name="link" placeholder="Ссылка на картинку">
+          <input class="popup__text" id="link" type="URL" name="link" placeholder="Ссылка на картинку" required>
+          <span class="link-error popup__text-error" id="link-error"></span>
         </label>
         <button class="button popup__button" id="create-button" type="submit">Создать</button>
       </form>
@@ -125,6 +129,7 @@
       </div>
     </div>
   </div>
+  <script src="./script/validate.js"></script>
   <script src="./script/index.js"></script>
 </body>
 </html>

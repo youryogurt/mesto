@@ -5,7 +5,9 @@
   background: #fff;
   width: calc(100% - 2 * 19px);
   max-width: 430px;
-  height: 322px;
+  height: auto;
+  min-height: 322px;
+  max-height: 352px;
   transition: 0.5s all;
   border-radius: 10px;
   display: flex;

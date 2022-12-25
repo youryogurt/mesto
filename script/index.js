@@ -113,6 +113,7 @@ initialCards.forEach(function (element) {
 
 // открытие попапа
 function openPopup(element) {
+  document.addEventListener('keydown', closePopupEsc);
   element.classList.add('popup_opened');
 };
 
@@ -147,7 +148,7 @@ addCardForm.addEventListener('submit', function (event) {
   const linkValue = link.value;
   addCard(placeNameValue, linkValue);
 
-  event.target.reset()
+  event.target.reset();
 
   const target = event.target;
   closePopup(target.closest('.popup'));
@@ -155,8 +156,9 @@ addCardForm.addEventListener('submit', function (event) {
 
 // закрытие попапа по кнопке и по клику за пределами формы
 function closePopup(element) {
+  document.removeEventListener('keydown', closePopupEsc);
   element.classList.remove('popup_opened');
-}
+};
 
 popupBackgrounds.forEach((popupBackground) => {
   popupBackground.addEventListener('mousedown', (evt) => {
@@ -168,3 +170,10 @@ popupBackgrounds.forEach((popupBackground) => {
     }
   });
 });
+
+// закрытие попапа по Esc
+function closePopupEsc (evt) {
+  if (evt.key === "Escape") {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup)};
+};
