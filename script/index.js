@@ -120,14 +120,14 @@ function openPopup(element) {
 editPopupButton.addEventListener('click', function (event) {
   resetValidation(editing);
   openPopup(editing);
-  
+
   inputName.value = fullName.textContent;
   inputJob.value = job.textContent;
 });
 
 openAddFormButton.addEventListener('click', function (event) {
-  // addCardForm.reset();
   resetValidation(addImage);
+  addImage.querySelector('#create-button').setAttribute('disabled', '');
   openPopup(addImage);
 });
 
@@ -163,10 +163,7 @@ function closePopup(element) {
 
 popupBackgrounds.forEach((popupBackground) => {
   popupBackground.addEventListener('mousedown', (evt) => {
-    if (evt.target.classList.contains('popup_opened')) {
-      closePopup(popupBackground)
-    }
-    if (evt.target.classList.contains('popup__close-button')) {
+    if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close-button')) {
       closePopup(popupBackground)
     }
   });
