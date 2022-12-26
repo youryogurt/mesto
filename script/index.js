@@ -45,6 +45,7 @@ const link = document.querySelector('#link');
 
 const addCardBackground = document.querySelector('.add-card');
 const openAddFormButton = document.querySelector('.add-button');
+const createButton = addImage.querySelector('#create-button');
 
 const gallery = document.querySelector('.gallery');
 
@@ -106,7 +107,6 @@ function addCard (name, link, append = false) {
 
 // загрузка страницы
 initialCards.forEach(function (element) {
-  // блабла
   const name = element['name'];
   const link = element['link'];
   addCard(name, link, true);
@@ -128,7 +128,8 @@ editPopupButton.addEventListener('click', function (event) {
 
 openAddFormButton.addEventListener('click', function (event) {
   resetValidation(addImage);
-  addImage.querySelector('#create-button').setAttribute('disabled', '');
+  createButton.setAttribute('disabled', '');
+  createButton.classList.add('popup__button_inactive');
   openPopup(addImage);
 });
 
