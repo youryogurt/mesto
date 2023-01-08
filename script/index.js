@@ -1,5 +1,7 @@
+import { Card } from './Card.js';
+
 // список карточек для загрузки страницы
-const initialCards = [
+export const initialCards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -56,60 +58,21 @@ const bigPhoto = document.querySelector('.popup_type_image');
 const popupImage = document.querySelector('.popup__image');
 const popupCaption = document.querySelector('.popup__caption');
 
-const cardTemplate = document.querySelector('#card');
-
-function like (event) {
-  event.target.classList.toggle('gallery__like_active');
-};
-
-function deleteCard (event) {
-  event.target.closest('.gallery__card').remove();
-}
-
-// создание карточки
-function createCard(name, link) {
-  const card = cardTemplate.content.cloneNode(true);
-  const galleryImage = card.querySelector('.gallery__image');
-
-  galleryImage.setAttribute('src', link);
-  galleryImage.setAttribute('alt', name);
-
-  galleryImage.addEventListener('click', function() {
-
-    popupImage.setAttribute('src', link);
-    popupImage.setAttribute('alt', name);
-    popupCaption.textContent = name;
-
-    openPopup(bigPhoto);
-  });
-  
-  const deleteButton = card.querySelector('.gallery__delete-button');
-  deleteButton.addEventListener('click', deleteCard);
-
-  const placeName = card.querySelector('.gallery__place-name');
-  placeName.textContent = name;
-
-  const likeButton = card.querySelector('.gallery__like');
-  likeButton.addEventListener('click', like);
-
-  return card
-};
+export const cardTemplate = document.querySelector('#card');
 
 // добавление карточки на страницу
 function addCard (name, link, append = false) {
-  const galleryCard = createCard(name, link);
+  const card = new Card(name, link, cardTemplate);
+  const cardElement = card.generateCard();
   if (append) {
-    gallery.append(galleryCard);
+    gallery.append(cardElement);
   } else {
-    gallery.prepend(galleryCard);
+    gallery.prepend(cardElement);
   }
 };
 
-// загрузка страницы
-initialCards.forEach(function (element) {
-  const name = element['name'];
-  const link = element['link'];
-  addCard(name, link, true);
+initialCards.forEach((cardData) => {
+  addCard(cardData.name, cardData.link, true);
 });
 
 // открытие попапа
