@@ -1,4 +1,5 @@
 import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
 
 // список карточек для загрузки страницы
 export const initialCards = [
@@ -27,6 +28,16 @@ export const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+//объект настроек с селекторами и классами формы
+const validationConfig = {
+  formSelector: '.popup__container',
+  inputSelector: '.popup__text',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_inactive',
+  inputErrorClass: 'popup__text_type_error',
+  errorClass: 'popup__text-error_visible'
+};
 
 const popupBackgrounds = document.querySelectorAll('.popup');
 const editPopupButton = document.querySelector('.profile__popup-open');
@@ -153,3 +164,11 @@ function resetValidation(form) {
     input.classList.remove('popup__text_type_error');
   });
 };
+
+const forms = Array.from(document.querySelectorAll(validationConfig.formSelector));
+
+forms.forEach((form) => {
+  const validation = new FormValidator(validationConfig, form);
+
+  validation.enableValidation(validationConfig, FormValidator);
+});
