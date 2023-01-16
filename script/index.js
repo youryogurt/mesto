@@ -27,7 +27,6 @@ const inputJob = document.querySelector('#job');
 const placeName = document.querySelector('#place-name');
 const link = document.querySelector('#link');
 
-const addCardBackground = document.querySelector('.add-card');
 const openAddFormButton = document.querySelector('.add-button');
 const createButton = addImage.querySelector('#create-button');
 
