@@ -1,8 +1,7 @@
-// import { initialCards, cardTemplate } from './index.js';
-
 export class Card {
-  constructor(name, link, cardTemplate) {
-    this._card = cardTemplate.content.querySelector('.gallery__card').cloneNode(true);
+  constructor(name, link, cardTemplate, openPopupImageFunc) {
+    this._cardTemplate = cardTemplate;
+    this._card = this._createCard();
     this._image = this._card.querySelector('.gallery__image');
     this._deleteButton = this._card.querySelector('.gallery__delete-button');
     this._caption = this._card.querySelector('.gallery__caption');
@@ -10,8 +9,13 @@ export class Card {
     this._like = this._card.querySelector('.gallery__like');
     this._link = link;
     this._name = name;
+    this._openPopupImageFunc = openPopupImageFunc;
   }
   
+  _createCard() {
+    return this._cardTemplate.content.querySelector('.gallery__card').cloneNode(true);
+  }
+
   _setEventListeners() {
     this._like.addEventListener('click', () => {
       this._handleLikeClick();
@@ -19,6 +23,10 @@ export class Card {
 
     this._deleteButton.addEventListener('click', () => {
       this._handleDeleteCard();
+    });
+
+    this._image.addEventListener('click', () => {
+      this._openPopupImageFunc(this._name, this._link);
     });
   }
 

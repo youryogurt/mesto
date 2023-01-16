@@ -20,69 +20,21 @@
           <div class="profile__text">
             <div class="profile__user">
               <h1 class="profile__full-name">Жак-Ив Кусто</h1>
-              <button class="profile__popup-open button" type="button"></button>
+              <button class="profile__popup-open button" type="button" aria-label="open editing popup"></button>
             </div>
             <p class="profile__job">Исследователь океана</p>
           </div>
         </div>
-        <button class="add-button button" type="button"></button>
+        <button class="add-button button" type="button" aria-label="open new card adding popup"></button>
       </section>
       <section class="gallery">
-        <!-- <div class="gallery__card">
-          <img class="gallery__image" src="./images/tbilisi.jpeg" alt="Вид на Тбилиси с Мтанцминды в предзакатное время">
-          <button class="gallery__delete-button button" type="button"></button>
-          <div class="gallery__caption">
-            <p class="gallery__place-name">Тбилиси</p>
-            <button class="gallery__like button" type="button"></button>
-          </div>
-        </div>
-        <div class="gallery__card">
-          <img class="gallery__image" src="./images/khulo.jpeg" alt="Горы в облаках ясным днем">
-          <button class="gallery__delete-button button" type="button"></button>
-          <div class="gallery__caption">
-            <p class="gallery__place-name">Хуло</p>
-            <button class="gallery__like button" type="button"></button>
-          </div>
-        </div>
-        <div class="gallery__card">
-          <img class="gallery__image" src="./images/sighnaghi.jpeg" alt="Проход между двумя одноэтажными белыми зданиями с черепичной крышей">
-          <button class="gallery__delete-button button" type="button"></button>
-          <div class="gallery__caption">
-            <p class="gallery__place-name">Сигнахи</p>
-            <button class="gallery__like button" type="button"></button>
-          </div>
-        </div>
-        <div class="gallery__card">
-          <img class="gallery__image" src="./images/batumi.jpeg" alt="Улица с высотками и пальмами в солнечный день">
-          <button class="gallery__delete-button button" type="button"></button>
-          <div class="gallery__caption">
-            <p class="gallery__place-name">Батуми</p>
-            <button class="gallery__like button" type="button"></button>
-          </div>
-        </div>
-        <div class="gallery__card">
-          <img class="gallery__image" src="./images/gudauri.jpeg" alt="Заснеженные горы и люди на лыжах">
-          <button class="gallery__delete-button button" type="button"></button>
-          <div class="gallery__caption">
-            <p class="gallery__place-name">Гудаури</p>
-            <button class="gallery__like button" type="button"></button>
-          </div>
-        </div>
-        <div class="gallery__card">
-          <img class="gallery__image" src="./images/chateau-chapiteau.jpeg" alt="Молодой человек на кресле на веранде лесного домика">
-          <button class="gallery__delete-button button" type="button"></button>
-          <div class="gallery__caption">
-            <p class="gallery__place-name">Шато-Шапито</p>
-            <button class="gallery__like button" type="button"></button>
-          </div>
-        </div> -->
         <template id="card">
           <div class="gallery__card">
             <img class="gallery__image" src="#" alt="">
             <button class="gallery__delete-button button" type="button"></button>
             <div class="gallery__caption">
               <p class="gallery__place-name"></p>
-              <button class="gallery__like button" type="button"></button>
+              <button class="gallery__like button" type="button" aria-label="like"></button>
             </div>
           </div>
         </template>
@@ -91,9 +43,9 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
-    <div class="popup popup_type_editing"> 
+    <div class="popup popup_type_editing">
       <form class="popup__container" name="editing" novalidate>
-        <button class="button popup__close-button" type="button"></button>
+        <button class="button popup__close-button" type="button" aria-label="close"></button>
         <h2 class="popup__header popup__header_editing">Редактировать профиль</h2>
         <label class="popup__label">
           <input class="popup__text" id="name" type="text" name="name" minlength="2" maxlength="40" required>
@@ -108,7 +60,7 @@
     </div>
     <div class="popup popup_type_add-card"> 
       <form class="popup__container" name="add-card" novalidate>
-        <button class="button popup__close-button" type="button"></button>
+        <button class="button popup__close-button" type="button" aria-label="close"></button>
         <h2 class="popup__header popup__header_add-card">Новое место</h2>
         <label class="popup__label">
           <input class="popup__text" id="place-name" type="text" name="name" placeholder="Название" minlength="2" maxlength="30" required>
@@ -124,13 +76,11 @@
     <div class="popup popup_type_image">
       <div class="popup__image-container">
         <img src="#" alt="" class="popup__image">
-        <button class="button popup__close-button"></button>
+        <button class="button popup__close-button" aria-label="close"></button>
         <p class="popup__caption"></p>
       </div>
     </div>
   </div>
-  <script src="./script/Card.js" type="module"></script>
-  <script src="./script/FormValidator.js" type="module"></script>
   <script src="./script/index.js" type="module"></script>
 </body>
 </html>

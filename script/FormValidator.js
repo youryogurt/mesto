@@ -60,11 +60,19 @@ export class FormValidator {
     });
   }
 
-  enableValidation() {
-    this._formList = Array.from(document.querySelectorAll(this._formSelector));
-
-    this._formList.forEach(() => {
-    this._setEventListeners()
+  resetValidation() {
+    const spanErrors = Array.from(this._form.querySelectorAll('.popup__text-error'));
+    spanErrors.forEach((error) => {
+    error.textContent = '';
     });
+
+    const inputs = Array.from(this._form.querySelectorAll('.popup__text'));
+    inputs.forEach((input) => {
+    input.classList.remove('popup__text_type_error');
+    });
+  }
+
+  enableValidation() {
+    this._setEventListeners(this._formElement)
   }
 }
