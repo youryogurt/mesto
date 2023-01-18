@@ -25,3 +25,13 @@ export const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+//объект настроек с селекторами и классами формы
+export const validationConfig = {
+  formSelector: '.popup__container',
+  inputSelector: '.popup__text',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_inactive',
+  inputErrorClass: 'popup__text_type_error',
+  errorClass: 'popup__text-error_visible'
+};

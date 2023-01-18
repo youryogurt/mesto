@@ -1,22 +1,12 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
-import { initialCards } from './constants.js';
-
-//объект настроек с селекторами и классами формы
-const validationConfig = {
-  formSelector: '.popup__container',
-  inputSelector: '.popup__text',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_inactive',
-  inputErrorClass: 'popup__text_type_error',
-  errorClass: 'popup__text-error_visible'
-};
+import { initialCards, validationConfig } from './constants.js';
 
 const popupBackgrounds = document.querySelectorAll('.popup');
 const editPopupButton = document.querySelector('.profile__popup-open');
 
-const editing = document.querySelector('.popup_type_editing');
-const addImage = document.querySelector('.popup_type_add-card');
+const popupEdit = document.querySelector('.popup_type_editing');
+const popupAddImage = document.querySelector('.popup_type_add-card');
 
 const fullName = document.querySelector('.profile__full-name');
 const job = document.querySelector('.profile__job');
@@ -28,12 +18,12 @@ const placeName = document.querySelector('#place-name');
 const link = document.querySelector('#link');
 
 const openAddFormButton = document.querySelector('.add-button');
-const createButton = addImage.querySelector('#create-button');
+const createButton = popupAddImage.querySelector('#create-button');
 
 const gallery = document.querySelector('.gallery');
 
-const popupEdit = document.forms['editing'];
-const popupAddImage = document.forms['add-card'];
+const editForm = document.forms['editing'];
+const addCardForm = document.forms['add-card'];
 const bigPhoto = document.querySelector('.popup_type_image');
 
 const popupImage = document.querySelector('.popup__image');
@@ -42,8 +32,8 @@ const popupCaption = document.querySelector('.popup__caption');
 const cardTemplate = document.querySelector('#card');
 
 const validators = new Map([
-  [popupEdit.name, new FormValidator(validationConfig, popupEdit)],
-  [popupAddImage.name, new FormValidator(validationConfig, popupAddImage)]
+  [editForm.name, new FormValidator(validationConfig, editForm)],
+  [addCardForm.name, new FormValidator(validationConfig, addCardForm)]
 ]);
 
 // добавление карточки на страницу
@@ -68,18 +58,18 @@ function openPopup(element) {
 };
 
 editPopupButton.addEventListener('click', function (event) {
-  validators.get(popupEdit.name).resetValidation();
-  openPopup(editing);
+  validators.get(editForm.name).resetValidation();
+  openPopup(popupEdit);
 
   inputName.value = fullName.textContent;
   inputJob.value = job.textContent;
 });
 
 openAddFormButton.addEventListener('click', function (event) {
-  validators.get(popupAddImage.name).resetValidation();
+  validators.get(addCardForm.name).resetValidation();
   createButton.setAttribute('disabled', '');
   createButton.classList.add('popup__button_inactive');
-  openPopup(addImage);
+  openPopup(popupAddImage);
 });
 
 // открытие попапа с картинкой
@@ -93,22 +83,22 @@ function openPopupImage(name, link) {
 };
 
 // сабмит формы редактирования профиля
-popupEdit.addEventListener('submit', function (event) {
+editForm.addEventListener('submit', function (event) {
   event.preventDefault();
 
   fullName.textContent = inputName.value;
   job.textContent = inputJob.value;
-  closePopup(popupEdit.parentNode);
+  closePopup(popupEdit);
 });
 
 // сабмит формы добавления карточки
-popupAddImage.addEventListener('submit', function (event) {
+addCardForm.addEventListener('submit', function (event) {
   event.preventDefault();
   const placeNameValue = placeName.value;
   const linkValue = link.value;
   addCard(placeNameValue, linkValue);
 
-  closePopup(popupAddImage.parentNode);
+  closePopup(popupAddImage);
 });
 
 // закрытие попапа по кнопке и по клику за пределами формы
