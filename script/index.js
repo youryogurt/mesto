@@ -7,23 +7,23 @@ import { UserInfo } from './UserInfo.js';
 import { PopupWithImage } from './PopupWithImage.js';
 import { PopupWithForm } from './PopupWithForm.js';
 
-const popupBackgrounds = document.querySelectorAll('.popup');
+// const popupBackgrounds = document.querySelectorAll('.popup');
 const editPopupButton = document.querySelector('.profile__popup-open');
 
 const popupEdit = document.querySelector('.popup_type_editing');
 const popupAddImage = document.querySelector('.popup_type_add-card');
 
-const fullName = document.querySelector('.profile__full-name');
-const job = document.querySelector('.profile__job');
+// const fullName = document.querySelector('.profile__full-name');
+// const job = document.querySelector('.profile__job');
 
 const inputName = document.querySelector('#name');
 const inputJob = document.querySelector('#job');
 
-const placeName = document.querySelector('#place-name');
-const link = document.querySelector('#link');
+// const placeName = document.querySelector('#place-name');
+// const link = document.querySelector('#link');
 
 const openAddFormButton = document.querySelector('.add-button');
-const createButton = popupAddImage.querySelector('#create-button');
+// const createButton = popupAddImage.querySelector('#create-button');
 
 // const gallery = document.querySelector('.gallery');
 
@@ -31,17 +31,12 @@ const editForm = document.forms['editing'];
 const addCardForm = document.forms['add-card'];
 const bigPhoto = document.querySelector('.popup_type_image');
 
-const popupImage = document.querySelector('.popup__image');
-const popupCaption = document.querySelector('.popup__caption');
+// const popupImage = document.querySelector('.popup__image');
+// const popupCaption = document.querySelector('.popup__caption');
 
 const cardTemplate = document.querySelector('#card');
 
 const containerSelector = document.querySelector('.gallery');
-
-const validators = new Map([
-  [editForm.name, new FormValidator(validationConfig, editForm)],
-  [addCardForm.name, new FormValidator(validationConfig, addCardForm)]
-]);
 
 // добавление карточки на страницу
 // function addCard (name, link, append = false) {
@@ -138,11 +133,17 @@ const validators = new Map([
 // });
 
 // закрытие попапа по Esc
-function closePopupEsc (evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup)};
-};
+// function closePopupEsc (evt) {
+//   if (evt.key === "Escape") {
+//     const openedPopup = document.querySelector('.popup_opened');
+//     closePopup(openedPopup)};
+// };
+
+// добавление валидации
+const validators = new Map([
+  [editForm.name, new FormValidator(validationConfig, editForm)],
+  [addCardForm.name, new FormValidator(validationConfig, addCardForm)]
+]);
 
 validators.forEach((validator) => {
   validator.enableValidation();
@@ -191,9 +192,7 @@ editPopupButton.addEventListener('click', () => {
   inputName.value = name;
   inputJob.value = job;
   popupWithEditForm.open();
-  // popupWithEditForm.setEventListeners();
-  // popupEdit.resetValidation();
-  // validators.get(editForm.name).resetValidation();
+  validators.get(editForm.name).resetValidation();
 });
 
 // сабмит формы редактирования профиля
@@ -216,22 +215,3 @@ function addImageFormSubmit(obj) {
 }
 
 popupWithAddImageForm.setEventListeners();
-
-// function createCard(name, link) {
-//   return new Card(name, link, cardTemplate, handleCardClick).generateCard();
-// }
-
-// function addImageFormSubmit(event) {
-//   event.preventDefault();
-//   const placeNameValue = placeName.value;
-//   const linkValue = link.value;
-//   const card = createCard(placeNameValue, linkValue);
-//   cardList.addItem(card);
-//   popupWithAddImageForm.close();
-// }
-
-// popupWithAddImageForm.setEventListeners(event => {
-//   addImageFormSubmit(event);
-// });
-
-
