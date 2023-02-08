@@ -9,7 +9,8 @@ https://youryogurt.github.io/mesto/
 * использования классов и методов в Java Script;
 * работы с template;
 * подключения модулей Java Script;
-* ООП.
+* ООП;
+* сборки проекта при помощи web pack.
 
 ____
 
