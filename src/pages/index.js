@@ -58,6 +58,7 @@ cardList.renderItems();
 // открытие попапа с картинкой при клике на карточку
 function handleCardClick() {
   const popupWithImage = new PopupWithImage(bigPhoto);
+  popupWithImage.setEventListeners();
   popupWithImage.open(this._link, this._name);
 }
 
