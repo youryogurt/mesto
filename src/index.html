@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./pages/index.css">
+  <!-- <link rel="stylesheet" href=" pages/index.css"> -->
   <title>Mesto</title>
 </head>
 <body class="page">
   <div class="page__container">
     <header class="header">
       <a href="#">
-        <img class="logo" src="./images/logo.svg" alt="Надпись Mesto Russia">
+        <img class="logo" src="<%=require('./images/logo.svg')%>" alt="Надпись Mesto Russia">
       </a>
     </header>
     <main class="content">
       <section class="profile">
         <div class="profile__info">
-          <img class="profile__avatar" src="./images/avatar.jpg" alt="Жак-Ив Кусто в красной шапке и очках">
+          <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Жак-Ив Кусто в красной шапке и очках">
           <div class="profile__text">
             <div class="profile__user">
               <h1 class="profile__full-name">Жак-Ив Кусто</h1>
@@ -81,6 +81,6 @@
       </div>
     </div>
   </div>
-  <script src="./script/index.js" type="module"></script>
+  <script src="pages/index.js" type="module"></script>
 </body>
 </html>
