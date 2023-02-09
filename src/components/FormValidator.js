@@ -7,6 +7,8 @@ export class FormValidator {
     this._inactiveButtonClass = config.inactiveButtonClass;
     this._inputErrorClass = config.inputErrorClass;
     this._errorClass = config.errorClass;
+    this._spanErrors = Array.from(formElement.querySelectorAll(config.spanErrorSelector));
+    this._inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
   }
 
   _showInputError(inputElement) {
@@ -47,7 +49,6 @@ export class FormValidator {
   };
 
   _setEventListeners() {
-    this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
     this._buttonElement = this._form.querySelector(this._submitButtonSelector);
 
     this._toggleButtonState();
@@ -59,17 +60,14 @@ export class FormValidator {
       });
     });
   }
-
+  
   resetValidation() {
-    const spanErrors = Array.from(this._form.querySelectorAll('.popup__text-error'));
-    spanErrors.forEach((error) => {
-    error.textContent = '';
+    this._toggleButtonState();
+
+    this._inputList.forEach((input) => {
+      this._hideInputError(input)
     });
 
-    const inputs = Array.from(this._form.querySelectorAll('.popup__text'));
-    inputs.forEach((input) => {
-    input.classList.remove('popup__text_type_error');
-    });
   }
 
   enableValidation() {

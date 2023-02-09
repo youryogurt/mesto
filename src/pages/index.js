@@ -25,7 +25,7 @@ const bigPhoto = document.querySelector('.popup_type_image');
 
 const cardTemplate = document.querySelector('#card');
 
-const containerSelector = document.querySelector('.gallery');
+const container = document.querySelector('.gallery');
 
 // добавление валидации
 const validators = new Map([
@@ -39,33 +39,35 @@ validators.forEach((validator) => {
 
 // добавляю рефакторинг 8 спринта
 
-function createCard(obj) {
-  const card = new Card(obj.name, obj.link, cardTemplate, handleCardClick);
+function createCard(item) {
+  const card = new Card(item.name, item.link, cardTemplate, handleCardClick);
   const cardElement = card.generateCard();
-  cardList.addItem(cardElement);
+  return cardElement;
 }
 
 // отрисовка карточек на странице
 const cardList = new Section({
   items: initialCards,
   renderer: (item) => {
-    createCard(item);
+    const cardElement = createCard(item);
+    cardList.addItem(cardElement);
   }
-}, containerSelector)
+}, container)
 
 cardList.renderItems();
 
 // открытие попапа с картинкой при клике на карточку
+const popupWithImage = new PopupWithImage(bigPhoto);
+popupWithImage.setEventListeners();
+
 function handleCardClick() {
-  const popupWithImage = new PopupWithImage(bigPhoto);
-  popupWithImage.setEventListeners();
   popupWithImage.open(this._link, this._name);
 }
 
 // функционал с классом UserInfo
 const userInfo = new UserInfo({
-  userNameSelector: '.profile__full-name',
-  userJobSelector: '.profile__job'
+  userName: '.profile__full-name',
+  userJob: '.profile__job'
 });
 
 function editFormSubmit(obj) {
@@ -99,7 +101,8 @@ openAddFormButton.addEventListener('click', () => {
 // сабмит формы добавления карточки
 
 function addImageFormSubmit(obj) {
-  createCard(obj);
+  const cardElement = createCard(obj);
+  cardList.addItem(cardElement);
   popupWithAddImageForm.close();
 }
 
