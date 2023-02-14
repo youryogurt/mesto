@@ -74,6 +74,22 @@ function editFormSubmit(obj) {
   userInfo.setUserInfo(obj)
 };
 
+fetch('https://nomoreparties.co/v1/cohort-60/users/me ', {
+  headers: {
+    authorization: 'aa16a549-ea43-4766-9300-1c2b0845ff0c'
+  }
+})
+  .then(res => res.json())
+  .then(data => {
+    userInfo.setUserInfo(data);
+    const userAvatar = document.querySelector('.profile__avatar');
+    userAvatar.src = data.avatar;
+    userAvatar.alt = data.name;
+  })
+  .catch(err => {
+    console.log('Error fetching user data:', err);
+  });
+
 // экземпляр попапа редактирования профиля
 const popupWithEditForm = new PopupWithForm(popupEdit, editFormSubmit);
 
