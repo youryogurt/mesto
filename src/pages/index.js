@@ -9,6 +9,8 @@ import { UserInfo } from '../components/UserInfo.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 
+import { Api } from '../components/Api.js';
+
 const editPopupButton = document.querySelector('.profile__popup-open');
 
 const popupEdit = document.querySelector('.popup_type_editing');
@@ -38,23 +40,48 @@ validators.forEach((validator) => {
 });
 
 // добавляю рефакторинг 8 спринта
-
 function createCard(item) {
   const card = new Card(item.name, item.link, cardTemplate, handleCardClick);
   const cardElement = card.generateCard();
   return cardElement;
 }
 
-// отрисовка карточек на странице
-const cardList = new Section({
-  items: initialCards,
-  renderer: (item) => {
-    const cardElement = createCard(item);
-    cardList.addItem(cardElement);
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
+  headers: {
+    authorization: 'aa16a549-ea43-4766-9300-1c2b0845ff0c',
+    'Content-Type': 'application/json'
   }
-}, container)
+}); 
 
+// отрисовка карточек на странице
+api.getInitialCards()
+  .then((data) => {
+    const cardList = new Section({
+      items: data,
+      renderer: (item) => {
+        const cardElement = createCard(item);
+        cardList.addItem(cardElement);
+      }
+    }, container);
 cardList.renderItems();
+})
+.catch((err) => {
+  console.log(err);
+});
+
+// отрисовка данных пользователя
+api.getUserInfo()
+.then(data => {
+  userInfo.setUserInfo(data);
+  const userAvatar = document.querySelector('.profile__avatar');
+  userAvatar.src = data.avatar;
+  userAvatar.alt = data.name;
+  })
+  .catch(err => {
+    console.log('Error fetching user data:', err);
+  });
+
 
 // открытие попапа с картинкой при клике на карточку
 const popupWithImage = new PopupWithImage(bigPhoto);
@@ -73,22 +100,6 @@ const userInfo = new UserInfo({
 function editFormSubmit(obj) {
   userInfo.setUserInfo(obj)
 };
-
-fetch('https://nomoreparties.co/v1/cohort-60/users/me ', {
-  headers: {
-    authorization: 'aa16a549-ea43-4766-9300-1c2b0845ff0c'
-  }
-})
-  .then(res => res.json())
-  .then(data => {
-    userInfo.setUserInfo(data);
-    const userAvatar = document.querySelector('.profile__avatar');
-    userAvatar.src = data.avatar;
-    userAvatar.alt = data.name;
-  })
-  .catch(err => {
-    console.log('Error fetching user data:', err);
-  });
 
 // экземпляр попапа редактирования профиля
 const popupWithEditForm = new PopupWithForm(popupEdit, editFormSubmit);
