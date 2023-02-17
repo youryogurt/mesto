@@ -15,6 +15,7 @@ const editPopupButton = document.querySelector('.profile__popup-open');
 
 const popupEdit = document.querySelector('.popup_type_editing');
 const popupAddImage = document.querySelector('.popup_type_add-card');
+const popupChangeAvatar = document.querySelector('.popup_type_change-avatar');
 
 const inputName = document.querySelector('#name');
 const inputJob = document.querySelector('#job');
@@ -23,16 +24,20 @@ const openAddFormButton = document.querySelector('.add-button');
 
 const editForm = document.forms['editing'];
 const addCardForm = document.forms['add-card'];
+const changeAvatarForm = document.forms['change-avatar'];
 const bigPhoto = document.querySelector('.popup_type_image');
 
 const cardTemplate = document.querySelector('#card');
 
 const container = document.querySelector('.gallery');
 
+const openChangeAvatarButton = document.querySelector('.profile__avatar-wrapper');
+
 // добавление валидации
 const validators = new Map([
   [editForm.name, new FormValidator(validationConfig, editForm)],
-  [addCardForm.name, new FormValidator(validationConfig, addCardForm)]
+  [addCardForm.name, new FormValidator(validationConfig, addCardForm)],
+  [changeAvatarForm.name, new FormValidator(validationConfig, changeAvatarForm)]
 ]);
 
 validators.forEach((validator) => {
@@ -41,18 +46,20 @@ validators.forEach((validator) => {
 
 // добавляю рефакторинг 8 спринта
 function createCard(item) {
-  const card = new Card(item.name, item.link, cardTemplate, handleCardClick);
-  const cardElement = card.generateCard();
+  const card = new Card(item.name, item.link, item.likes, item.owner._id, cardTemplate, handleCardClick);
+  const cardElement = card.generateCard(item.owner._id);
   return cardElement;
 }
 
-const api = new Api({
+const config = {
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
   headers: {
     authorization: 'aa16a549-ea43-4766-9300-1c2b0845ff0c',
     'Content-Type': 'application/json'
   }
-}); 
+};
+
+const api = new Api(config);
 
 // отрисовка карточек на странице
 api.getInitialCards()
@@ -82,7 +89,6 @@ api.getUserInfo()
     console.log('Error fetching user data:', err);
   });
 
-
 // открытие попапа с картинкой при клике на карточку
 const popupWithImage = new PopupWithImage(bigPhoto);
 popupWithImage.setEventListeners();
@@ -98,7 +104,7 @@ const userInfo = new UserInfo({
 });
 
 function editFormSubmit(obj) {
-  userInfo.setUserInfo(obj)
+  userInfo.setUserInfo(obj);
 };
 
 // экземпляр попапа редактирования профиля
@@ -106,9 +112,9 @@ const popupWithEditForm = new PopupWithForm(popupEdit, editFormSubmit);
 
 // открытие попапа редактирования формы
 editPopupButton.addEventListener('click', () => {
-  const { name, job } = userInfo.getUserInfo();
+  const { name, about } = userInfo.getUserInfo();
   inputName.value = name;
-  inputJob.value = job;
+  inputJob.value = about;
   popupWithEditForm.open();
   validators.get(editForm.name).resetValidation();
 });
@@ -125,12 +131,51 @@ openAddFormButton.addEventListener('click', () => {
   validators.get(addCardForm.name).resetValidation();
 })
 
-// сабмит формы добавления карточки
+// экземпляр попапа изменения аватара
+const popupWithAvatarChangeForm = new PopupWithForm(popupChangeAvatar, changeAvatarFormSubmit);
 
+// открытие попапа изменения аватара
+openChangeAvatarButton.addEventListener('click', () => {
+  popupWithAvatarChangeForm.open();
+  validators.get(editForm.name).resetValidation();
+});
+
+// сабмит формы изменения аватара
+function changeAvatarFormSubmit() {
+  const inputAvatar = document.querySelector('#avatar-link');
+  const avatar = inputAvatar.value;
+  api.changeAvatar(avatar)
+    .then((data) => {
+      const userAvatar = document.querySelector('.profile__avatar');
+      userAvatar.src = data.avatar;
+      userAvatar.alt = data.name;
+      popupWithAvatarChangeForm.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+popupWithAvatarChangeForm.setEventListeners();
+
+// сабмит формы добавления карточки, но тут есть проблема, что я создаю cardList дважды
 function addImageFormSubmit(obj) {
-  const cardElement = createCard(obj);
-  cardList.addItem(cardElement);
-  popupWithAddImageForm.close();
+  api.addCard(obj)
+    .then((data) => {
+      const cardElement = createCard(data);
+      const cardList = new Section({
+        items: data,
+        renderer: (item) => {
+          const cardElement = createCard(item);
+          cardList.addItem(cardElement);
+        }
+      }, container);
+      cardList.addItem(cardElement);
+      popupWithAddImageForm.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 popupWithAddImageForm.setEventListeners();

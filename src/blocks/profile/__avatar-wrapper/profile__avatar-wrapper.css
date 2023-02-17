@@ -1,0 +1,16 @@
+.profile__avatar-wrapper {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.profile__avatar-wrapper:hover {
+  opacity: 0.8;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50%;
+  background-image: <%=require('../../../images/change-avatar.svg')%>;
+}

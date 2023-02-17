@@ -6,8 +6,9 @@
   border: none;
   width: 18px;
   height: 19px;
+  display: none;
 }
 
-.gallery__delete-button:hover {
+/* .gallery__delete-button:hover {
   opacity: .6;
-}
+} */

@@ -1,23 +1,43 @@
-export class Api {
-  constructor(options) {
-    this.options = options;
+const handleResponse = (res) => {
+  if (res.ok) {
+    return res.json();
   }
-  
-  async _getInfo(slug) {
-    const res = await fetch(`${this.options.baseUrl}/${slug}`, {
-      headers: this.options.headers
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
+
+export class Api {
+  constructor(config) {
+    this.baseUrl = config.baseUrl;
+    this.headers = config.headers;
+  }
+
+  async _fetch(slug, method, body) {
+    const res = await fetch(`${this.baseUrl}/${slug}`, {
+      method: method,
+      headers: this.headers,
+      body: JSON.stringify(body)
     });
-    if (res.ok) {
-      return res.json();
-    }
-    return await Promise.reject(`Ошибка: ${res.status}`);
+    return handleResponse(res);
   }
 
   async getInitialCards() {
-    return await this._getInfo('cards');
+    return await this._fetch('cards', 'GET');
   }
 
   async getUserInfo() {
-    return await this._getInfo('users/me');
+    return await this._fetch('users/me', 'GET');
+  }
+
+  // async setUserInfo(data) {
+  //   return await this._fetch('users/me', 'PATCH', data);
+  // }
+
+  async addCard(data) {
+    return await this._fetch('cards', 'POST', data);
+  }
+
+  async changeAvatar(avatarUrl) {
+    const avatar = {avatar: avatarUrl};
+    return await this._fetch('users/me/avatar', 'PATCH', avatar);
   }
 }
