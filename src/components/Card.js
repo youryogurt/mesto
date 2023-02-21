@@ -12,6 +12,7 @@ export class Card {
     this._name = name;
     this._likes = likes;
     this._ownerId = ownerId;
+    // this._currentUserId = currentUserId;
     this._handleCardClick = handleCardClick;
   }
   

@@ -14,9 +14,9 @@ export class Section {
 
   addItem(item) {
     if (this._append) {
-      this._container.append(item)
-    } else {
       this._container.prepend(item)
+    } else {
+      this._container.append(item)
     }
   }
 }

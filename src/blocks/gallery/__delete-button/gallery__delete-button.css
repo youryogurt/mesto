@@ -9,6 +9,7 @@
   display: none;
 }
 
-/* .gallery__delete-button:hover {
+.gallery__delete-button:hover {
   opacity: .6;
-} */
+  cursor: pointer;
+}

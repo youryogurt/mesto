@@ -28,9 +28,9 @@ export class Api {
     return await this._fetch('users/me', 'GET');
   }
 
-  // async setUserInfo(data) {
-  //   return await this._fetch('users/me', 'PATCH', data);
-  // }
+  async setUserInfo(data) {
+    return await this._fetch('users/me', 'PATCH', data);
+  }
 
   async addCard(data) {
     return await this._fetch('cards', 'POST', data);
@@ -39,5 +39,13 @@ export class Api {
   async changeAvatar(avatarUrl) {
     const avatar = {avatar: avatarUrl};
     return await this._fetch('users/me/avatar', 'PATCH', avatar);
+  }
+
+  async deleteCard(cardId) {
+    return await this._fetch(`cards/${cardId}`, 'DELETE');
+  }
+
+  async toggleLike(cardId, isLiked) {
+    return await this._fetch(`cards/likes/${cardId}`, isLiked ? 'PUT' : 'DELETE');
   }
 }
