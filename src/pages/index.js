@@ -77,7 +77,7 @@ api.getUserInfo()
   });
 
 function createCard(item) {
-  const card = new Card(item.name, item.link, item.likes, item.owner._id, cardTemplate, handleCardClick);
+  const card = new Card(item.name, item.link, item.likes, item._id, item.owner._id, cardTemplate, handleCardClick, handleDeleteCard);
   const cardElement = card.generateCard(currentUserId);
   return cardElement;
 }
@@ -212,24 +212,22 @@ popupWithAddImageForm.setEventListeners();
 const popupWithDeleteAgreement = new PopupWithButton(popupDeleteCard, deleteAgreementSubmit);
 
 // удаление карточки
-// trashButton.addEventListener('click', () => {
-//   popupWithDeleteAgreement.open();
-// });
+function handleDeleteCard(card) {
+  popupWithDeleteAgreement.open(card);
+}
 
-trashButtons.forEach((trashButton) => {
-  trashButton.addEventListener('click', () => {
-    popupWithDeleteAgreement.open();
-  });
-});
-
-function deleteAgreementSubmit() {
-  api.deleteCard()
+function deleteAgreementSubmit(card) {
+  api.deleteCard(card._cardId)
     .then(() => {
+      card._card.remove();
+      card= null;
       popupWithDeleteAgreement.close();
     })
     .catch((err) => {
       console.log(err);
     });
- }
+}
+
+popupWithDeleteAgreement.setEventListeners();
 
 // лайк карточки

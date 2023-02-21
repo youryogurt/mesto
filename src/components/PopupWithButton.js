@@ -11,8 +11,13 @@ export class PopupWithButton extends Popup {
     super.setEventListeners();
     this._button.addEventListener('click', (evt) => {
       evt.preventDefault();
-      this._handlerButtonSubmit();
+      this._handlerButtonSubmit(this._card);
       this.close();
     })
+  }
+
+  open(card) {
+    super.open();
+    this._card = card;
   }
 }
