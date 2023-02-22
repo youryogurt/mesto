@@ -2,4 +2,5 @@
   min-height: 272px;
   max-height: 272px;
   margin-top: 224px;
+  z-index: 2;
 }
