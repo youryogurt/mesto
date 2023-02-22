@@ -16,7 +16,7 @@ export class Card {
     this._ownerId = ownerId;
     this._cardId = cardId;
     this._handleCardClick = handleCardClick;
-    this._handleDeleteCard = handleDeleteCard;
+    this.handleDeleteCard = handleDeleteCard;
     this.handleLikeCard = handleLikeCard;
     this.handleDislikeCard = handleDislikeCard;
     this._data = data;

@@ -10,7 +10,7 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 
 import { Api } from '../components/Api.js';
-import { PopupWithButton } from '../components/PopupWithButton.js';
+import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js';
 
 const editPopupButton = document.querySelector('.profile__popup-open');
 const popupEdit = document.querySelector('.popup_type_editing');
@@ -161,6 +161,7 @@ openChangeAvatarButton.addEventListener('click', () => {
 
 // сабмит формы изменения аватара
 function changeAvatarFormSubmit() {
+  showLoadingMessage();
   const inputAvatar = document.querySelector('#avatar-link');
   const avatar = inputAvatar.value;
   api.changeAvatar(avatar)
@@ -169,6 +170,7 @@ function changeAvatarFormSubmit() {
       userAvatar.src = data.avatar;
       userAvatar.alt = data.name;
       popupWithAvatarChangeForm.close();
+      hideLoadingMessage();
     })
     .catch((err) => {
       console.log(err);
@@ -177,8 +179,9 @@ function changeAvatarFormSubmit() {
 
 popupWithAvatarChangeForm.setEventListeners();
 
-// сабмит формы добавления карточки, но тут есть проблема, что я создаю cardList дважды
+// сабмит формы добавления карточки
 function addImageFormSubmit(obj) {
+  showLoadingMessage();
   api.addCard(obj)
     .then((data) => {
       const cardElement = createCard(data);
@@ -191,6 +194,7 @@ function addImageFormSubmit(obj) {
       }, container);
       cardList.addItem(cardElement);
       popupWithAddImageForm.close();
+      hideLoadingMessage();
     })
     .catch((err) => {
       console.log(err);
@@ -200,7 +204,7 @@ function addImageFormSubmit(obj) {
 popupWithAddImageForm.setEventListeners();
 
 // экземпляр попапа подтверждения удаления карточки
-const popupWithDeleteAgreement = new PopupWithButton(popupDeleteCard, deleteAgreementSubmit);
+const popupWithDeleteAgreement = new PopupWithConfirmation(popupDeleteCard, deleteAgreementSubmit);
 
 // удаление карточки
 function handleDeleteCard(card) {
