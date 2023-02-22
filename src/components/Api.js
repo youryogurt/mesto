@@ -45,7 +45,11 @@ export class Api {
     return await this._fetch(`cards/${cardId}`, 'DELETE');
   }
 
-  async toggleLike(cardId, isLiked) {
-    return await this._fetch(`cards/likes/${cardId}`, isLiked ? 'PUT' : 'DELETE');
+  async likeCard(cardId) {
+    return await this._fetch(`cards/likes/${cardId}`, 'PUT');
+  }
+
+  async dislikeCard(cardId) {
+    return await this._fetch(`cards/likes/${cardId}`, 'DELETE');
   }
 }

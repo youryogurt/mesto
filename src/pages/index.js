@@ -13,29 +13,20 @@ import { Api } from '../components/Api.js';
 import { PopupWithButton } from '../components/PopupWithButton.js';
 
 const editPopupButton = document.querySelector('.profile__popup-open');
-
 const popupEdit = document.querySelector('.popup_type_editing');
 const popupAddImage = document.querySelector('.popup_type_add-card');
 const popupChangeAvatar = document.querySelector('.popup_type_change-avatar');
 const popupDeleteCard = document.querySelector('.popup_type_delete-card');
-
 const inputName = document.querySelector('#name');
 const inputJob = document.querySelector('#job');
-
 const openAddFormButton = document.querySelector('.add-button');
-
 const editForm = document.forms['editing'];
 const addCardForm = document.forms['add-card'];
 const changeAvatarForm = document.forms['change-avatar'];
 const bigPhoto = document.querySelector('.popup_type_image');
-
 const cardTemplate = document.querySelector('#card');
-
 const container = document.querySelector('.gallery');
-
 const openChangeAvatarButton = document.querySelector('.profile__change-avatar-button');
-const deleteAgreementButton = document.querySelector('#delete-agreement-button');
-const trashButtons = document.querySelectorAll('.gallery__delete-button');
 
 const likeButton = document.querySelector('.gallery__like-button');
 const likeCounter = document.querySelector('.gallery__likes-count');
@@ -77,7 +68,7 @@ api.getUserInfo()
   });
 
 function createCard(item) {
-  const card = new Card(item.name, item.link, item.likes, item._id, item.owner._id, cardTemplate, handleCardClick, handleDeleteCard);
+  const card = new Card(item.name, item.link, item.likes, item._id, item.owner._id, cardTemplate, handleCardClick, handleDeleteCard, handleLikeCard, handleDislikeCard);
   const cardElement = card.generateCard(currentUserId);
   return cardElement;
 }
@@ -231,3 +222,24 @@ function deleteAgreementSubmit(card) {
 popupWithDeleteAgreement.setEventListeners();
 
 // лайк карточки
+function handleLikeCard(card) {
+  api.likeCard(card._cardId)
+    .then((data) => {
+      card.toggleLikeCard(data);
+      card._likeCounter.textContent = data.likes.length;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function handleDislikeCard(card) {
+  api.dislikeCard(card._cardId)
+    .then((data) => {
+      card.toggleLikeCard(data);
+      card._likeCounter.textContent = data.likes.length;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}

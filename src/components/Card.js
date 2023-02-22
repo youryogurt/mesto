@@ -1,5 +1,7 @@
+import { data } from "autoprefixer";
+
 export class Card {
-  constructor(name, link, likes, cardId, ownerId, cardTemplate, handleCardClick, handleDeleteCard) {
+  constructor(name, link, likes, cardId, ownerId, cardTemplate, handleCardClick, handleDeleteCard, handleLikeCard, handleDislikeCard) {
     this._cardTemplate = cardTemplate;
     this._card = this._createCard();
     this._image = this._card.querySelector('.gallery__image');
@@ -15,6 +17,9 @@ export class Card {
     this._cardId = cardId;
     this._handleCardClick = handleCardClick;
     this._handleDeleteCard = handleDeleteCard;
+    this.handleLikeCard = handleLikeCard;
+    this.handleDislikeCard = handleDislikeCard;
+    this._data = data;
   }
   
   _createCard() {
@@ -23,31 +28,37 @@ export class Card {
 
   _setEventListeners() {
     this._like.addEventListener('click', () => {
-      this._handleLikeClick();
-    });
+    if (this._like.classList.contains('gallery__like-button_active')) {
+      this.handleDislikeCard(this);
+    } else {
+      this.handleLikeCard(this);
+    }
+  });
 
     this._deleteButton.addEventListener('click', () => {
-      this._handleDeleteCard(this);
+      this.handleDeleteCard(this);
     });
 
     this._image.addEventListener('click', () => {
-      this._handleCardClick(this._name, this._link);
+      this.handleCardClick(this._name, this._link);
     });
   }
 
-  _handleLikeClick() {
+  toggleLikeCard() {
     this._like.classList.toggle('gallery__like-button_active');
   }
-
-  // _handleDeleteCard() {
-  //   this._card.remove();
-  // }
 
   generateCard(currentUserId) {
     this._image.src = this._link;
     this._image.alt = this._name;
     this._likeCounter.textContent = this._likes.length;
     this._placeName.textContent = this._name;
+
+    if (this._likes.some((like) => like._id === currentUserId)) {
+      this._like.classList.add('gallery__like-button_active');
+    } else {
+      this._like.classList.remove('gallery__like-button_active');
+    }
 
     if (this._ownerId === currentUserId) {
       this._deleteButton.classList.add('gallery__delete-button_visible');
