@@ -6,6 +6,6 @@
   border: 0;
 }
 
-.gallery__like-button {
+.gallery__like-button:hover {
   opacity: .5;
 }
