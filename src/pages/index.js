@@ -2,7 +2,7 @@ import './index.css';
 
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
-import { initialCards, validationConfig } from '../utils/constants.js';
+import { validationConfig } from '../utils/constants.js';
 
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
@@ -17,8 +17,6 @@ const popupEdit = document.querySelector('.popup_type_editing');
 const popupAddImage = document.querySelector('.popup_type_add-card');
 const popupChangeAvatar = document.querySelector('.popup_type_change-avatar');
 const popupDeleteCard = document.querySelector('.popup_type_delete-card');
-const inputName = document.querySelector('#name');
-const inputJob = document.querySelector('#job');
 const openAddFormButton = document.querySelector('.add-button');
 const editForm = document.forms['editing'];
 const addCardForm = document.forms['add-card'];
@@ -27,9 +25,6 @@ const bigPhoto = document.querySelector('.popup_type_image');
 const cardTemplate = document.querySelector('#card');
 const container = document.querySelector('.gallery');
 const openChangeAvatarButton = document.querySelector('.profile__change-avatar-button');
-
-const likeButton = document.querySelector('.gallery__like-button');
-const likeCounter = document.querySelector('.gallery__likes-count');
 
 let currentUserId = '';
 
@@ -54,14 +49,22 @@ const config = {
 
 const api = new Api(config);
 
-// отрисовка данных пользователя
-api.getUserInfo()
-.then(data => {
-  userInfo.setUserInfo(data);
-  const userAvatar = document.querySelector('.profile__avatar');
-  userAvatar.src = data.avatar;
-  userAvatar.alt = data.name;
-  currentUserId = data._id;
+const cardList = new Section({
+  items: [],
+  renderer: (item) => {
+    const cardElement = createCard(item);
+    cardList.addItem(cardElement);
+  }
+}, container);
+
+// отрисовка данных
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    userInfo.setUserInfo(userData);
+    userInfo.setUserAvatar(userData);
+    currentUserId = userData._id;
+    cardList.setItems(cards);
+    cardList.renderItems();
   })
   .catch(err => {
     console.log('Error fetching user data:', err);
@@ -72,22 +75,6 @@ function createCard(item) {
   const cardElement = card.generateCard(currentUserId);
   return cardElement;
 }
-
-// отрисовка карточек на странице
-api.getInitialCards()
-  .then((data) => {
-    const cardList = new Section({
-      items: data,
-      renderer: (item) => {
-        const cardElement = createCard(item);
-        cardList.addItem(cardElement);
-      }
-    }, container);
-cardList.renderItems();
-})
-.catch((err) => {
-  console.log(err);
-});
 
 // открытие попапа с картинкой при клике на карточку
 const popupWithImage = new PopupWithImage(bigPhoto);
@@ -100,26 +87,17 @@ function handleCardClick() {
 // функционал с классом UserInfo
 const userInfo = new UserInfo({
   userName: '.profile__full-name',
-  userJob: '.profile__job'
+  userJob: '.profile__job',
+  userAvatar: '.profile__avatar'
 });
 
-function showLoadingMessage() {
-  document.querySelector('.popup__button').textContent = 'Сохранение...';
-}
-
-function hideLoadingMessage() {
-  document.querySelector('.popup__button').textContent = 'Сохранить';
-}
-
+// сабмит формы редактирования профиля
 function editFormSubmit(obj) {
-  showLoadingMessage();
-  const name = inputName.value;
-  const about = inputJob.value;
-  api.setUserInfo({ name, about })
+  const { name, about } = popupWithEditForm.getInputValues();
+  return api.setUserInfo(this._formValues)
   .then((res) => {
     popupWithEditForm.close();
     userInfo.setUserInfo(res);
-    hideLoadingMessage();
   })
   .catch((err) => {
     console.log(err);
@@ -132,8 +110,7 @@ const popupWithEditForm = new PopupWithForm(popupEdit, editFormSubmit);
 // открытие попапа редактирования формы
 editPopupButton.addEventListener('click', () => {
   const { name, about } = userInfo.getUserInfo();
-  inputName.value = name;
-  inputJob.value = about;
+  popupWithEditForm.setInputValues({ name, about });
   popupWithEditForm.open();
   validators.get(editForm.name).resetValidation();
 });
@@ -161,16 +138,11 @@ openChangeAvatarButton.addEventListener('click', () => {
 
 // сабмит формы изменения аватара
 function changeAvatarFormSubmit() {
-  showLoadingMessage();
-  const inputAvatar = document.querySelector('#avatar-link');
-  const avatar = inputAvatar.value;
-  api.changeAvatar(avatar)
+  const { avatar } = popupWithAvatarChangeForm.getInputValues();
+  return api.changeAvatar(avatar)
     .then((data) => {
-      const userAvatar = document.querySelector('.profile__avatar');
-      userAvatar.src = data.avatar;
-      userAvatar.alt = data.name;
+      userInfo.setUserAvatar(data);
       popupWithAvatarChangeForm.close();
-      hideLoadingMessage();
     })
     .catch((err) => {
       console.log(err);
@@ -181,20 +153,11 @@ popupWithAvatarChangeForm.setEventListeners();
 
 // сабмит формы добавления карточки
 function addImageFormSubmit(obj) {
-  showLoadingMessage();
-  api.addCard(obj)
+  return api.addCard(obj)
     .then((data) => {
       const cardElement = createCard(data);
-      const cardList = new Section({
-        items: data,
-        renderer: (item) => {
-          const cardElement = createCard(item);
-          cardList.addItem(cardElement);
-        }
-      }, container);
       cardList.addItem(cardElement);
       popupWithAddImageForm.close();
-      hideLoadingMessage();
     })
     .catch((err) => {
       console.log(err);
@@ -230,7 +193,7 @@ function handleLikeCard(card) {
   api.likeCard(card._cardId)
     .then((data) => {
       card.toggleLikeCard(data);
-      card._likeCounter.textContent = data.likes.length;
+      card.likeCounter.textContent = data.likes.length;
     })
     .catch((err) => {
       console.log(err);
@@ -241,7 +204,7 @@ function handleDislikeCard(card) {
   api.dislikeCard(card._cardId)
     .then((data) => {
       card.toggleLikeCard(data);
-      card._likeCounter.textContent = data.likes.length;
+      card.likeCounter.textContent = data.likes.length;
     })
     .catch((err) => {
       console.log(err);

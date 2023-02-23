@@ -9,13 +9,13 @@ export class Card {
     this._caption = this._card.querySelector('.gallery__caption');
     this._placeName = this._card.querySelector('.gallery__place-name');
     this._like = this._card.querySelector('.gallery__like-button');
-    this._likeCounter = this._card.querySelector('.gallery__likes-count');
+    this.likeCounter = this._card.querySelector('.gallery__likes-count');
     this._name = name;
     this._link = link;
     this._likes = likes;
     this._ownerId = ownerId;
     this._cardId = cardId;
-    this._handleCardClick = handleCardClick;
+    this.handleCardClick = handleCardClick;
     this.handleDeleteCard = handleDeleteCard;
     this.handleLikeCard = handleLikeCard;
     this.handleDislikeCard = handleDislikeCard;
@@ -51,7 +51,7 @@ export class Card {
   generateCard(currentUserId) {
     this._image.src = this._link;
     this._image.alt = this._name;
-    this._likeCounter.textContent = this._likes.length;
+    this.likeCounter.textContent = this._likes.length;
     this._placeName.textContent = this._name;
 
     if (this._likes.some((like) => like._id === currentUserId)) {

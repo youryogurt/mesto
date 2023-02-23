@@ -1,14 +1,14 @@
-const handleResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-}
-
 export class Api {
   constructor(config) {
     this.baseUrl = config.baseUrl;
     this.headers = config.headers;
+  }
+
+  async handleResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
 
   async _fetch(slug, method, body) {
@@ -17,7 +17,7 @@ export class Api {
       headers: this.headers,
       body: JSON.stringify(body)
     });
-    return handleResponse(res);
+    return this.handleResponse(res);
   }
 
   async getInitialCards() {

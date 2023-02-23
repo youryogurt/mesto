@@ -1,15 +1,19 @@
 export class Section {
   constructor({ items, renderer }, container, append = false) {
-    this._items = items;
+    this.items = items;
     this._renderer = renderer;
     this._container = container;
     this._append = append;
   }
 
   renderItems() {
-    this._items.forEach(item => {
+    this.items.reverse().forEach(item => {
       this._renderer(item);
     });
+  }
+
+  setItems(items) {
+    this.items = items;
   }
 
   addItem(item) {
